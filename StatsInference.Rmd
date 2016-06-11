@@ -1,0 +1,84 @@
+---
+title: "StatsInference"
+output: word_document
+---
+
+# Statistical Inference Course Project Part 1
+### Summary
+In this project, we are tasked with performing some inferential data analysis in two parts.
+
+A simulation exercise.
+Basic inferential data analysis.
+
+# Question 1
+
+
+
+```{r}
+# Set seed
+set.seed(2)
+
+# Set lambda
+lambda <- 0.2
+
+# Simulations
+sim <- 1000
+
+# Samples
+n <- 40
+
+# Simulate and take mean
+simexp <- replicate(sim, rexp(n,lambda))
+meanexp <- colMeans(simexp)
+```
+
+# Compare theretical mean with simulated mean
+
+```{r, echo=FALSE}
+
+# Simulated mean
+smean <- mean(meanexp)
+print(smean)
+
+# Theoretical mean
+tmean <- 1/lambda
+print(tmean)
+# Graph
+
+hist(meanexp, breaks = 20, xlab = "Mean", main = "Histogram of 1000 Simulated Exponential Means", col = "cyan")
+abline(v = smean, col = "red")
+
+
+```
+
+# Question 2
+
+```r{}
+
+# Simulated Standard Deviation and Variance
+sstdev <- sd(meanexp)
+svar <- sstdev^2
+print(svar)
+
+# Theoretical Standard Deviation and Variance
+tstdev <- (1/lambda)/sqrt(n)
+tvar <- tstdev^2
+print(tvar)
+
+```
+
+#### The simulated variance is 0.6691 compared to the theoretical variance of 0.625.
+
+# Question 2
+
+```r{}
+
+# Plot Histogram
+hist(meanexp, breaks = 40, xlab = "Mean", main = "Comparison to a Normal Distribution", col = "beige")
+
+# Add the Theoretical Normal Distribution Line
+xfit <- seq(min(meanexp), max(meanexp), length = 100) 
+yfit <- dnorm(xfit, mean = 1/lambda, sd = 1/lambda/sqrt(n))
+lines(xfit, yfit*100, lty=2)
+
+```
